@@ -10,6 +10,7 @@ import { UsuarioDto } from 'src/app/schemas/UsuarioDto';
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page implements OnInit {
+  peleadores: UsuarioDto[] = [];
   _storage: Storage;
 
   constructor(
@@ -28,11 +29,26 @@ export class Tab1Page implements OnInit {
     let sesion: UsuarioDto = new UsuarioDto(
       JSON.parse(await this.storage.get('sesion'))
     );
+
     this.usuarioService.consultarPeleadores(sesion).subscribe(
       (data: any) => {
-        const filtered = data.docs.filter(function(element){
+        const respuesta = data.docs.filter((element) => {
           return element.id != sesion.id;
         });
+
+        respuesta.forEach((element) => {
+          let peleador: UsuarioDto = {
+            id: element.id,
+            correo: element.data().correo,
+            apodo: element.data().apodo,
+            experiencia: element.data().experiencia,
+            peso: element.data().peso,
+          };
+
+          this.peleadores.push(peleador);
+        });
+
+        console.log(this.peleadores);
       },
       (err) => {
         console.log(err);
