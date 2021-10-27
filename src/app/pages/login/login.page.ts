@@ -10,7 +10,7 @@ import { ToastController } from '@ionic/angular';
 import { UsuarioService } from 'src/app/core/services/usuario.service';
 import { UsuarioDto } from 'src/app/schemas/UsuarioDto';
 
-/* import { AppPreferences } from '@ionic-native/app-preferences/ngx'; */
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-login',
@@ -21,16 +21,25 @@ export class LoginPage implements OnInit {
   verMenuLateral: boolean;
 
   form: FormGroup;
+  _storage: Storage;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService,
-    public toastController: ToastController /*   private appPreferences: AppPreferences */
-  ) {}
+    public toastController: ToastController,
+    private storage: Storage
+  ) {
+    this.init();
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.buildForm();
+  }
+
+  async init() {
+    const storage = await this.storage.create();
+    this._storage = storage;
   }
 
   buildForm(): void {
@@ -70,7 +79,7 @@ export class LoginPage implements OnInit {
     return this.getContrasenia.errors && this.getContrasenia.dirty;
   }
 
-  async iniciarSesion(): Promise<void> {
+  async iniciarSesion() {
     this.form.markAsTouched();
 
     if (this.form.valid) {
@@ -78,17 +87,19 @@ export class LoginPage implements OnInit {
       this.usuarioService
         .iniciarSesion(new UsuarioDto(this.form.value))
         .subscribe(
-          (data: any) => {
+          async (data: any) => {
             console.log(data.docs);
             if (data.docs.length != 0) {
-              console.log(data.docs[0].id);
-              console.log(data.docs[0].data());
+              let sesion: UsuarioDto = {
+                id: data.docs[0].id,
+                correo: data.docs[0].data().correo,
+                experiencia: data.docs[0].data().experiencia,
+                peso: data.docs[0].data().peso,
+              };
 
-              /*    this.appPreferences.store('sesion', 'hola');
+              this.storage.remove('sesion');
 
-              this.appPreferences.fetch('sesion').then((res) => {
-                console.log(res);
-              }); */
+              await this.storage.set('sesion', JSON.stringify(sesion));
 
               this.router.navigateByUrl('/inicio');
             } else {

@@ -1,4 +1,5 @@
 export class UsuarioDto {
+  id?: string;
   correo?: string;
   contrasenia?: string;
   apodo?: string;
