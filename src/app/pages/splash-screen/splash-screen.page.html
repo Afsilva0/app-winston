@@ -1,0 +1,44 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="startApp()" [hidden]="!showSkip"
+        >SALTAR</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-slides [options]="slideOpts">
+    <ion-slide>
+      <img src="assets/img/logo.png" class="slide-image" />
+      <h2 class="slide-title">
+        Bienvenido a
+        <b>WINSTON</b>
+      </h2>
+      <p>
+        La
+        <b>Aplicación de boxeo </b> mas usada en el mundo al alcance de tu mano.
+      </p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/img/logo.png" class="slide-image" />
+      <h2 class="slide-title">¿Que es Winston?</h2>
+      <p>
+        <b>Winston app</b> es una aplicación de boxeo donde puedes encontrar
+        oponentes de todo el mundo y cuadrar disputas mediante previa
+        aceptación.
+      </p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/img/logo.png" class="slide-image" />
+      <h2 class="slide-title">¿Lista para jugar?</h2>
+      <ion-button fill="clear" (click)="startApp()">
+        Continuar
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

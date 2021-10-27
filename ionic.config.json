@@ -1,0 +1,7 @@
+{
+  "name": "app-winston",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

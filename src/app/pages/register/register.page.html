@@ -1,0 +1,95 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons *ngIf="!verMenuLateral" slot="start">
+      <ion-menu-button color="danger"></ion-menu-button>
+    </ion-buttons>
+    <ion-title *ngIf="!verMenuLateral">Registrarse</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="login-logo">
+    <img src="assets/img/logo.png" height="200px" alt="Ionic logo" />
+  </div>
+
+  <form [formGroup]="form">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked" color="danger">Correo:</ion-label>
+        <ion-input
+          formControlName="correo"
+          name="username"
+          type="text"
+          spellcheck="false"
+          autocapitalize="off"
+          required
+        >
+        </ion-input>
+      </ion-item>
+
+      <ion-text color="danger" *ngIf="validarCorreoCampo()">
+        <p class="ion-padding-start">Campo Requerido</p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="danger">Contraseña:</ion-label>
+        <ion-input
+          formControlName="contrasenia"
+          name="password"
+          type="password"
+          required
+        >
+        </ion-input>
+      </ion-item>
+
+      <ion-text color="danger" *ngIf="validarContraseniaCampo()">
+        <p class="ion-padding-start">Campo Requerido</p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="danger">Apodo:</ion-label>
+        <ion-input formControlName="apodo" name="apodo" type="text" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-text color="danger" *ngIf="validarApodoCampo()">
+        <p class="ion-padding-start">Campo Requerido</p>
+      </ion-text>
+    </ion-list>
+
+    <ion-item>
+      <ion-label position="stacked" color="danger">Peso:</ion-label>
+      <ion-input formControlName="peso" name="peso" type="text" required>
+      </ion-input>
+    </ion-item>
+
+    <ion-text color="danger" *ngIf="validarPesoCampo()">
+      <p class="ion-padding-start">Campo Requerido</p>
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="stacked" color="danger">Experiencia:</ion-label>
+      <ion-select formControlName="experiencia" name="experiencia" type="text">
+        <ion-select-option value="0">Gimnasio</ion-select-option>
+        <ion-select-option value="1">Mmco</ion-select-option>
+        <ion-select-option value="2">Pro</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-text color="danger" *ngIf="validarExperienciaCampo()">
+      <p class="ion-padding-start">Campo Requerido</p>
+    </ion-text>
+
+    <ion-row>
+      <ion-col>
+        <ion-button
+          (click)="registrarse()"
+          color="danger"
+          type="submit"
+          expand="block"
+          >Registrarse</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

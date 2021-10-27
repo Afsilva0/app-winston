@@ -1,0 +1,70 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons *ngIf="!verMenuLateral" slot="start">
+      <ion-menu-button color="danger"></ion-menu-button>
+    </ion-buttons>
+    <ion-title *ngIf="!verMenuLateral">Inicio de sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="login-logo">
+    <img src="assets/img/logo.png" height="200px" alt="Ionic logo" />
+  </div>
+
+  <form [formGroup]="form">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked" color="danger">Correo:</ion-label>
+        <ion-input
+          formControlName="correo"
+          name="username"
+          type="text"
+          spellcheck="false"
+          autocapitalize="off"
+          required
+        >
+        </ion-input>
+      </ion-item>
+
+      <ion-text color="danger" *ngIf="validarCorreoCampo()">
+        <p class="ion-padding-start">Campo Requerido</p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="danger">Contraseña:</ion-label>
+        <ion-input
+          formControlName="contrasenia"
+          name="password"
+          type="password"
+          required
+        >
+        </ion-input>
+      </ion-item>
+
+      <ion-text color="danger" *ngIf="validarContraseniaCampo()">
+        <p class="ion-padding-start">Campo Requerido</p>
+      </ion-text>
+    </ion-list>
+
+    <ion-row>
+      <ion-col>
+        <ion-button
+          (click)="iniciarSesion()"
+          color="danger"
+          type="submit"
+          expand="block"
+          >Iniciar sesión</ion-button
+        >
+      </ion-col>
+      <ion-col>
+        <ion-button
+          (click)="redireccionarRegister()"
+          color="light"
+          expand="block"
+          >Registrarse</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

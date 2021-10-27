@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "app-wonston": {
+      "hosting": {
+        "app": [
+          "app-wonston"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "app-wonston"
+  }
+}
