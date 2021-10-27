@@ -30,7 +30,9 @@ export class Tab1Page implements OnInit {
     );
     this.usuarioService.consultarPeleadores(sesion).subscribe(
       (data: any) => {
-        console.log(data.docs);
+        const filtered = data.docs.filter(function(element){
+          return element.id != sesion.id;
+        });
       },
       (err) => {
         console.log(err);
