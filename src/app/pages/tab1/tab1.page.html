@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="peleadores.length!=0">
-  <swiper [navigation]="true" class="mySwiper">
+  <swiper class="mySwiper">
     <ng-template swiperSlide *ngFor="let peleador of peleadores">
       <div class="swiper-container">
         <div class="info">
@@ -48,11 +48,14 @@
           </div>
         </div>
         <div class="action">
-          <ion-segment (ionChange)="segmentChanged($event)" color="secondary">
-            <ion-segment-button value="No">
+          <ion-segment
+            (ionChange)="registarSolicitud($event,peleador)"
+            color="secondary"
+          >
+            <ion-segment-button value="R">
               <ion-label>Negar</ion-label>
             </ion-segment-button>
-            <ion-segment-button value="Si">
+            <ion-segment-button value="P">
               <ion-label>Aceptar</ion-label>
             </ion-segment-button>
           </ion-segment>

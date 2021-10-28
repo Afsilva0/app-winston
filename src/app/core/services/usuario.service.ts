@@ -27,24 +27,24 @@ export class UsuarioService {
     return this.firestore.collection('usuario', consulta).get();
   }
 
-  public consultarPeleadores(usuarioDto: UsuarioDto) {
+  public consultarPeleadores(usuario: UsuarioDto) {
     let consulta: QueryGroupFn;
-    if (usuarioDto.peso < 70) {
+    if (usuario.peso < 70) {
       consulta = (ref) =>
         ref
           .where('peso', '<', 70)
-          .where('experiencia', '==', usuarioDto.experiencia);
-    } else if (usuarioDto.peso >= 70 && usuarioDto.peso < 90) {
+          .where('experiencia', '==', usuario.experiencia);
+    } else if (usuario.peso >= 70 && usuario.peso < 90) {
       consulta = (ref) =>
         ref
           .where('peso', '>=', 70)
           .where('peso', '<', 90)
-          .where('experiencia', '==', usuarioDto.experiencia);
+          .where('experiencia', '==', usuario.experiencia);
     } else {
       consulta = (ref) =>
         ref
           .where('peso', '>=', 90)
-          .where('experiencia', '==', usuarioDto.experiencia);
+          .where('experiencia', '==', usuario.experiencia);
     }
     return this.firestore.collection('usuario', consulta).get();
   }
