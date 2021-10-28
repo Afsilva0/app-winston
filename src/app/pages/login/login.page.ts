@@ -102,6 +102,12 @@ export class LoginPage implements OnInit {
               await this.storage.set('sesion', JSON.stringify(sesion));
 
               this.router.navigateByUrl('/inicio');
+
+              const toast = await this.toastController.create({
+                message: 'Bienvenido',
+                duration: 2000,
+              });
+              toast.present();
             } else {
               console.log('no hay datos');
             }

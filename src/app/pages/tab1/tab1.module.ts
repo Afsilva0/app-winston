@@ -6,8 +6,16 @@ import { Tab1Page } from './tab1.page';
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 
+import { SwiperModule } from 'swiper/angular';
+
 @NgModule({
-  imports: [IonicModule, CommonModule, FormsModule, Tab1PageRoutingModule],
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    Tab1PageRoutingModule,
+    SwiperModule,
+  ],
   declarations: [Tab1Page],
 })
 export class Tab1PageModule {}

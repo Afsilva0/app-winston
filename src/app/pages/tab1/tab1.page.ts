@@ -4,12 +4,14 @@ import { UsuarioService } from 'src/app/core/services/usuario.service';
 import { Storage } from '@ionic/storage-angular';
 import { UsuarioDto } from 'src/app/schemas/UsuarioDto';
 
+import SwiperCore, { Navigation } from 'swiper';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page implements OnInit {
+  verMenuLateral: boolean;
   peleadores: UsuarioDto[] = [];
   _storage: Storage;
 
@@ -19,6 +21,11 @@ export class Tab1Page implements OnInit {
     private storage: Storage
   ) {
     this.init();
+  }
+
+  async init() {
+    const storage = await this.storage.create();
+    this._storage = storage;
   }
 
   ngOnInit(): void {
@@ -56,8 +63,7 @@ export class Tab1Page implements OnInit {
     );
   }
 
-  async init() {
-    const storage = await this.storage.create();
-    this._storage = storage;
+  segmentChanged(ev: any) {
+    console.log('Segment changed', ev);
   }
 }

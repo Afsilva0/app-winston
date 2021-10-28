@@ -1,13 +1,67 @@
-<ion-header [translucent]="true">
+<ion-header translucent="true">
   <ion-toolbar>
-    <ion-title> Buscar peleador</ion-title>
+    <ion-buttons *ngIf="!verMenuLateral" slot="start">
+      <ion-menu-button color="danger"></ion-menu-button>
+    </ion-buttons>
+    <ion-title *ngIf="!verMenuLateral">Buscar peleador</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large"> Buscar</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" *ngIf="peleadores.length!=0">
+  <swiper [navigation]="true" class="mySwiper">
+    <ng-template swiperSlide *ngFor="let peleador of peleadores">
+      <div class="swiper-container">
+        <div class="info">
+          <div class="containe-img">
+            <img src="assets/img/logo.png" class="peleador-img" />
+          </div>
+
+          <h2 class="peleador-title">{{peleador.apodo}}</h2>
+
+          <div class="peleador-descripciones">
+            <p class="peleador-descripcion-label">Experiencia:</p>
+            <p
+              class="peleador-descripcion-text"
+              *ngIf="peleador.experiencia==0"
+            >
+              Gimnasio
+            </p>
+
+            <p
+              class="peleador-descripcion-text"
+              *ngIf="peleador.experiencia==1"
+            >
+              Mmco
+            </p>
+
+            <p
+              class="peleador-descripcion-text"
+              *ngIf="peleador.experiencia==2"
+            >
+              Pro
+            </p>
+          </div>
+
+          <div class="peleador-descripciones">
+            <p class="peleador-descripcion-label">Peso:</p>
+            <p class="peleador-descripcion-text">{{peleador.peso}}</p>
+          </div>
+        </div>
+        <div class="action">
+          <ion-segment (ionChange)="segmentChanged($event)" color="secondary">
+            <ion-segment-button value="No">
+              <ion-label>Negar</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="Si">
+              <ion-label>Aceptar</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </div>
+      </div>
+    </ng-template>
+  </swiper>
+</ion-content>
+
+<ion-content [fullscreen]="true" *ngIf="peleadores.length==0">
+  <h2>No hay peleadores disponibles.</h2>
 </ion-content>

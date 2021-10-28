@@ -8,6 +8,7 @@ import {
 import { UsuarioService } from 'src/app/core/services/usuario.service';
 import { UsuarioDto } from 'src/app/schemas/UsuarioDto';
 import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -20,6 +21,7 @@ export class RegisterPage implements OnInit {
   form: FormGroup;
 
   constructor(
+    private route: Router,
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService,
     public toastController: ToastController
@@ -106,9 +108,24 @@ export class RegisterPage implements OnInit {
     if (this.form.valid) {
       console.log(this.form.value);
 
-      let usuario: UsuarioDto = new UsuarioDto(this.form.value);
-      console.log(usuario);
+      let usuario: UsuarioDto = {
+        correo: this.getCorreo.value,
+        contrasenia: this.getContrasenia.value,
+        apodo: this.getApodo.value,
+        peso: parseInt(this.getPeso.value),
+        experiencia: parseInt(this.getExperiencia.value),
+      };
+
       this.usuarioService.registrarUsuario(usuario);
+
+      this.route.navigateByUrl('/login');
+
+      const toast = await this.toastController.create({
+        message: 'Registro Exitoso',
+        duration: 2000,
+      });
+
+      toast.present();
     } else {
       const toast = await this.toastController.create({
         message: 'Diligencie los campos correctamente.',
