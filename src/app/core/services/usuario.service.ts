@@ -8,12 +8,28 @@ import { UsuarioDto } from 'src/app/schemas/UsuarioDto';
   providedIn: 'root',
 })
 export class UsuarioService {
+  sesion: UsuarioDto;
   constructor(private firestore: AngularFirestore) {}
+
+  set setSesion(sesion: UsuarioDto) {
+    this.sesion = sesion;
+  }
+
+  get getSesion() {
+    return this.sesion;
+  }
 
   public registrarUsuario(usuarioDto: UsuarioDto) {
     return this.firestore
       .collection('usuario')
       .doc()
+      .set(Object.assign({}, usuarioDto));
+  }
+
+  public actualizarUsuario(usuarioDto: UsuarioDto) {
+    return this.firestore
+      .collection('usuario')
+      .doc(usuarioDto.id)
       .set(Object.assign({}, usuarioDto));
   }
 

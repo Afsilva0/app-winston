@@ -95,6 +95,7 @@ export class LoginPage implements OnInit {
                 correo: data.docs[0].data().correo,
                 experiencia: data.docs[0].data().experiencia,
                 peso: data.docs[0].data().peso,
+                apodo: data.docs[0].data().apodo,
               };
 
               this.storage.remove('sesion');

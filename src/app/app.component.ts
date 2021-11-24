@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
     let sesion: UsuarioDto = new UsuarioDto(
       JSON.parse(await this.storage.get('sesion'))
     );
-    console.log(sesion);
+
     if (sesion.id) {
       this.router.navigateByUrl('/inicio');
     }

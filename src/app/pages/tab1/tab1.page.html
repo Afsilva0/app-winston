@@ -1,7 +1,9 @@
 <ion-header translucent="true">
   <ion-toolbar>
-    <ion-buttons *ngIf="!verMenuLateral" slot="start">
-      <ion-menu-button color="danger"></ion-menu-button>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarSesion()">
+        <ion-icon slot="icon-only" md="log-in"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title *ngIf="!verMenuLateral">Buscar peleador</ion-title>
   </ion-toolbar>

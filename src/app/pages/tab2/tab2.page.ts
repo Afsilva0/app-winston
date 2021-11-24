@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { SolicitudService } from 'src/app/core/services/solicitud.service';
+import { UsuarioService } from 'src/app/core/services/usuario.service';
+import { SolicitudDto } from 'src/app/schemas/SolicitudDto';
 import { UsuarioDto } from 'src/app/schemas/UsuarioDto';
-import { Tab1Page } from '../tab1/tab1.page';
 
 @Component({
   selector: 'app-tab2',
@@ -10,22 +12,14 @@ import { Tab1Page } from '../tab1/tab1.page';
 })
 export class Tab2Page {
   verMenuLateral: boolean;
-  peleadores: UsuarioDto[] = [];
-  _storage: Storage;
+  peleadores: SolicitudDto[] = [];
 
   sesion: UsuarioDto;
   constructor(
+    private usuarioService: UsuarioService,
     private solicitudService: SolicitudService,
-    private storage: Storage,
-    private tab1Page: Tab1Page
-  ) {
-    /*     this.init(); */
-  }
-
-  /*   async init() {
-    const storage = await this.storage.create();
-    this._storage = storage;
-  } */
+    public loadingController: LoadingController
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.consultarSesion();
@@ -33,31 +27,45 @@ export class Tab2Page {
   }
 
   consultarSesion() {
-    this.tab1Page.consultarSesionLocal().subscribe((data) => {
-      this.sesion = data;
-    });
+    this.sesion = this.usuarioService.getSesion;
   }
 
-  consultarSolicitudes() {
+  async consultarSolicitudes() {
+    this.peleadores = [];
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Cargando...',
+      translucent: true,
+
+      backdropDismiss: true,
+    });
+    await loading.present();
+
     this.solicitudService.consultarSolicitudesByUsuario(this.sesion).subscribe(
       (data: any) => {
         data.docs.forEach((element) => {
-          let peleador: UsuarioDto = {
-            id: element.id,
-            correo: element.data().correo,
-            apodo: element.data().apodo,
-            experiencia: element.data().experiencia,
-            peso: element.data().peso,
+          let peleador: SolicitudDto = {
+            estado: element.data().estado,
+            id_usuario: element.data().id_usuario,
+            interesado: element.data().interesado,
           };
 
           this.peleadores.push(peleador);
         });
 
         console.log(this.peleadores);
+        loading.remove();
       },
       (err) => {
         console.log(err);
       }
     );
+  }
+
+  recargar(event) {
+    setTimeout(() => {
+      this.consultarSolicitudes();
+      event.target.complete();
+    }, 500);
   }
 }

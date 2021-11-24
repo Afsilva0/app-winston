@@ -41,14 +41,6 @@ export class RegisterPage implements OnInit {
           Validators.maxLength(30),
         ],
       ],
-      contrasenia: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(30),
-        ],
-      ],
       apodo: [
         '',
         [
@@ -66,10 +58,6 @@ export class RegisterPage implements OnInit {
     return this.form.get('correo');
   }
 
-  get getContrasenia(): AbstractControl {
-    return this.form.get('contrasenia');
-  }
-
   get getApodo(): AbstractControl {
     return this.form.get('apodo');
   }
@@ -84,10 +72,6 @@ export class RegisterPage implements OnInit {
 
   validarCorreoCampo(): boolean {
     return this.getCorreo.errors && this.getCorreo.dirty;
-  }
-
-  validarContraseniaCampo(): boolean {
-    return this.getContrasenia.errors && this.getContrasenia.dirty;
   }
 
   validarApodoCampo(): boolean {
@@ -110,7 +94,6 @@ export class RegisterPage implements OnInit {
 
       let usuario: UsuarioDto = {
         correo: this.getCorreo.value,
-        contrasenia: this.getContrasenia.value,
         apodo: this.getApodo.value,
         peso: parseInt(this.getPeso.value),
         experiencia: parseInt(this.getExperiencia.value),

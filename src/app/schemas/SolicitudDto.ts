@@ -1,6 +1,8 @@
+import { UsuarioDto } from './UsuarioDto';
+
 export class SolicitudDto {
   id_usuario?: string;
-  id_interesado?: string;
+  interesado?: UsuarioDto;
   estado?: string;
 
   constructor(init?: Partial<SolicitudDto>) {

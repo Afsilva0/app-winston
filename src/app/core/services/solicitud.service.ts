@@ -22,6 +22,6 @@ export class SolicitudService {
     consulta = (ref) =>
       ref.where('id_usuario', '==', usuario.id).where('estado', '==', 'P');
 
-    return this.firestore.collection('usuario', consulta).get();
+    return this.firestore.collection('solicitud', consulta).get();
   }
 }

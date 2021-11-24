@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import {
+  AlertController,
+  LoadingController,
+  ToastController,
+} from '@ionic/angular';
 import { UsuarioService } from 'src/app/core/services/usuario.service';
 import { Storage } from '@ionic/storage-angular';
 import { UsuarioDto } from 'src/app/schemas/UsuarioDto';
 
-import SwiperCore, { Navigation } from 'swiper';
 import { SolicitudService } from 'src/app/core/services/solicitud.service';
 import { SolicitudDto } from 'src/app/schemas/SolicitudDto';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -21,10 +25,13 @@ export class Tab1Page implements OnInit {
   sesion: UsuarioDto;
 
   constructor(
+    private storage: Storage,
     private usuarioService: UsuarioService,
-    private solicitudService: SolicitudService,
     public toastController: ToastController,
-    private storage: Storage
+    private solicitudService: SolicitudService,
+    public loadingController: LoadingController,
+    public alertController: AlertController,
+    private route: Router
   ) {
     this.init();
   }
@@ -40,28 +47,22 @@ export class Tab1Page implements OnInit {
   }
 
   async consultarSesion() {
-    this.consultarSesionLocal().subscribe((data) => {
-      this.sesion = data;
-    });
-  }
-
-  consultarSesionLocal(): Observable<UsuarioDto> {
-    return new Observable((observer) => {
-      this.consultarSesion();
-      this.storage
-        .get('sesion')
-        .then((data) => {
-          observer.next(data);
-          observer.complete();
-        })
-        .catch((err) => {
-          observer.error(err);
-          observer.complete();
-        });
-    });
+    this.sesion = new UsuarioDto(JSON.parse(await this.storage.get('sesion')));
+    this.usuarioService.setSesion = this.sesion;
   }
 
   async consultarPeleador(): Promise<void> {
+    console.log(this.sesion);
+
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Cargando...',
+      translucent: true,
+
+      backdropDismiss: true,
+    });
+    await loading.present();
+
     this.usuarioService.consultarPeleadores(this.sesion).subscribe(
       (data: any) => {
         const respuesta = data.docs.filter((element) => {
@@ -79,6 +80,8 @@ export class Tab1Page implements OnInit {
 
           this.peleadores.push(peleador);
         });
+
+        loading.remove();
       },
       (err) => {
         console.log(err);
@@ -87,9 +90,16 @@ export class Tab1Page implements OnInit {
   }
 
   async registarSolicitud(ev: any, peleador: UsuarioDto) {
+    console.log(this.sesion);
     let solicitud: SolicitudDto = {
-      id_usuario: this.sesion.id,
-      id_interesado: peleador.id,
+      id_usuario: peleador.id,
+      interesado: {
+        id: this.sesion.id,
+        apodo: this.sesion.apodo,
+        experiencia: this.sesion.experiencia,
+        peso: this.sesion.peso,
+        correo: this.sesion.correo,
+      },
       estado: ev.detail.value,
     };
 
@@ -106,5 +116,33 @@ export class Tab1Page implements OnInit {
       duration: 2000,
     });
     toast.present();
+  }
+
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Winston!',
+      message: '¿Esta seguro que desea  <strong>Cerrar la sesión?</strong>',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {},
+        },
+        {
+          text: 'Aceptar',
+          handler: () => {
+            this.storage.clear();
+
+            this.usuarioService.setSesion = {};
+
+            this.route.navigateByUrl('/login');
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }
