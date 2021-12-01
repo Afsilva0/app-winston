@@ -105,12 +105,16 @@ export class LoginPage implements OnInit {
               this.router.navigateByUrl('/inicio');
 
               const toast = await this.toastController.create({
-                message: 'Bienvenido',
+                message: 'Bienvenido  ' + data.docs[0].data().apodo,
                 duration: 2000,
               });
               toast.present();
             } else {
-              console.log('no hay datos');
+              const toast = await this.toastController.create({
+                message: 'Credenciales inválidas',
+                duration: 2000,
+              });
+              toast.present();
             }
           },
           (err) => {

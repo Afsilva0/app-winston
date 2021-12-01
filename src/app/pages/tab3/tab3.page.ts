@@ -71,10 +71,6 @@ export class Tab3Page {
     return this.form.get('correo');
   }
 
-  get getContrasenia(): AbstractControl {
-    return this.form.get('contrasenia');
-  }
-
   get getApodo(): AbstractControl {
     return this.form.get('apodo');
   }
@@ -89,10 +85,6 @@ export class Tab3Page {
 
   validarCorreoCampo(): boolean {
     return this.getCorreo.errors && this.getCorreo.dirty;
-  }
-
-  validarContraseniaCampo(): boolean {
-    return this.getContrasenia.errors && this.getContrasenia.dirty;
   }
 
   validarApodoCampo(): boolean {
@@ -115,6 +107,7 @@ export class Tab3Page {
 
       let usuario: UsuarioDto = {
         id: this.sesion.id,
+        correo: this.getCorreo.value,
         apodo: this.getApodo.value,
         peso: parseInt(this.getPeso.value),
         experiencia: parseInt(this.getExperiencia.value),

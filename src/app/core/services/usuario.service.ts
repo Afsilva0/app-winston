@@ -30,7 +30,7 @@ export class UsuarioService {
     return this.firestore
       .collection('usuario')
       .doc(usuarioDto.id)
-      .set(Object.assign({}, usuarioDto));
+      .update(Object.assign({}, usuarioDto));
   }
 
   public iniciarSesion(usuarioDto: UsuarioDto) {
